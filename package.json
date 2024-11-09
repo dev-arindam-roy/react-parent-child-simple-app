@@ -1,6 +1,6 @@
 {
   "name": "parent-child-simple-app",
-  "homepage": "https://gitname.github.io/customer-billing",
+  "homepage": "https://gitname.github.io/react-parent-child-simple-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

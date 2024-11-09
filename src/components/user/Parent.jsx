@@ -88,6 +88,7 @@ const Parent = () => {
     return `${firstDigit}${remainingDigits}`;
   };
 
+  // child event emit from header component
   const loadUserEventHandler = () => {
     let randomUserBucket = [];
     for (let i = 1; i <= 100; i++) {
@@ -118,6 +119,7 @@ const Parent = () => {
     });
   };
 
+  // child event emit from header component
   const deleteAllUserEventHandler = () => {
     Swal.fire({
       title: "Are you sure?",
