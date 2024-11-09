@@ -29,7 +29,7 @@ const Child = ({
   return (
     <>
       <h2>
-        <FiUsers className="mtx-10" /> User List
+        <FiUsers className="mtx-10" /> User List ({getUserList.length})
       </h2>
       <Card>
         <Card.Body>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Header from "./Header";
 import Child from "./Child";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -61,17 +62,89 @@ const Parent = () => {
     setEditIndex(keyIndex);
   };
 
+  const getRandomString = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const randomLength = Math.floor(Math.random() * 3) + 4; // Random length between 4 and 6
+    let result = "";
+    for (let i = 0; i < randomLength; i++) {
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
+    return capitalizeFirstChar(result);
+  };
+
+  const capitalizeFirstChar = (str) => {
+    if (!str) return ""; // Handle empty strings
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const getRandomPhoneNumber = () => {
+    const firstDigit = Math.floor(Math.random() * 9) + 1; // Ensures the first digit is between 1 and 9
+    const remainingDigits = Math.floor(Math.random() * 1_000_000_000)
+      .toString()
+      .padStart(9, "0"); // Generates a 9-digit string
+    return `${firstDigit}${remainingDigits}`;
+  };
+
+  const loadUserEventHandler = () => {
+    let randomUserBucket = [];
+    for (let i = 1; i <= 100; i++) {
+      let _tempUser = {
+        uuid: uuidv4(),
+        firstName: getRandomString(),
+        lastName: getRandomString(),
+        email: getRandomString() + "@" + getRandomString() + ".onex",
+        phoneNumber: getRandomPhoneNumber(),
+      };
+      randomUserBucket.push(_tempUser);
+    }
+    // merge old/previous users with the random created userbucket
+    const mergeUserList = [...userList, ...randomUserBucket];
+    setUserList(mergeUserList);
+    //console.log(randomUserBucket);
+    Swal.fire({
+      title: "Please wait...",
+      html: "System is <strong>processing</strong> your request",
+      timer: 2000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    }).then(() => {
+      Swal.close();
+      toast.success("Random user loaded successfully!");
+    });
+  };
+
+  const deleteAllUserEventHandler = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to remove all users",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#0d6efd",
+      cancelButtonColor: "#dc3545",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setUserList([]);
+        resetFormHandler();
+        toast.success("All users deleted successfully!");
+      }
+    });
+  };
+
   return (
     <>
       <Container fluid="md" className="mt-3">
-        <Row>
-          <Col>
-            <h2>
-              <strong>Parent - Child - Prop - App</strong>
-            </h2>
-            <hr />
-          </Col>
-        </Row>
+        {/* header child component */}
+        <Header
+          onLoadUserEventFromChild={loadUserEventHandler}
+          deleteAllUserEventFromChild={deleteAllUserEventHandler}
+          receiveUserListFromParent={userList}
+        />
         <Row className="mt-3">
           <Col xs={12} md={8}>
             {/* child componet with props. left side belongs to child component & right side within the brace belongs to parent component */}
