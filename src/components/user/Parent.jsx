@@ -113,6 +113,8 @@ const Parent = () => {
       didOpen: () => {
         Swal.showLoading();
       },
+      allowOutsideClick: false, // Prevent closing on outside click
+      allowEscapeKey: false, // Prevent closing on Esc key press
     }).then(() => {
       Swal.close();
       toast.success("Random user loaded successfully!");
@@ -129,6 +131,8 @@ const Parent = () => {
       confirmButtonColor: "#0d6efd",
       cancelButtonColor: "#dc3545",
       confirmButtonText: "Yes",
+      allowOutsideClick: false, // Prevent closing on outside click
+      allowEscapeKey: false, // Prevent closing on Esc key press
     }).then((result) => {
       if (result.isConfirmed) {
         setUserList([]);
