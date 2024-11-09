@@ -24,7 +24,7 @@ const Child = ({
     const lastPart = str.slice(-4);
     const masked = `${firstPart}-****-${lastPart}`;
     return masked;
-  }
+  };
 
   return (
     <>

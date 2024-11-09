@@ -6,14 +6,14 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { toast } from 'react-toastify';
-import Swal from 'sweetalert2'
-import { v4 as uuidv4 } from 'uuid';
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { v4 as uuidv4 } from "uuid";
 import { FiUserPlus } from "react-icons/fi";
 import "./User.css";
 
 const initUserState = {
-uuid: "",
+  uuid: "",
   firstName: "",
   lastName: "",
   email: "",
@@ -22,20 +22,23 @@ uuid: "",
 const Parent = () => {
   const [user, setUser] = useState(initUserState);
   const [userList, setUserList] = useState([]);
+  // get array index key when edit event call from child
   const [editIndex, setEditIndex] = useState(null);
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
     if (editIndex !== null) {
+      // update user
       const updatedUserList = userList.map((item, index) =>
         index === editIndex ? user : item
       );
       setUserList(updatedUserList);
-      toast.success('User updated successfully!');
+      toast.success("User updated successfully!");
     } else {
-        const newUser = { ...user, uuid: uuidv4() };
+      // add new user
+      const newUser = { ...user, uuid: uuidv4() };
       setUserList([...userList, newUser]);
-      toast.success('User added successfully!');
+      toast.success("User added successfully!");
       console.log(user);
     }
     resetFormHandler();
@@ -46,11 +49,13 @@ const Parent = () => {
     setEditIndex(null);
   };
 
+  // delete event perform once it call from child
   const deleteEventHandler = (keyIndex) => {
     setUserList(userList.filter((_, index) => index !== keyIndex));
-    toast.success('User deleted successfully!');
+    toast.success("User deleted successfully!");
   };
 
+  // edit event perform once it call from child
   const editEventHandler = (keyIndex) => {
     setUser(userList[keyIndex]);
     setEditIndex(keyIndex);
@@ -69,6 +74,10 @@ const Parent = () => {
         </Row>
         <Row className="mt-3">
           <Col xs={12} md={8}>
+            {/* child componet with props. left side belongs to child component & right side within the brace belongs to parent component */}
+            {/* when child call/trigger any operation then the call should be emit in parent like function */}
+            {/* child to parent ==> function/event should emit */}
+            {/* parent to child only pass the data in props */}
             <Child
               receiveUserListFromParent={userList}
               onDeleteEventFromChild={deleteEventHandler}
@@ -140,14 +149,14 @@ const Parent = () => {
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="user.phoneNumber">
                     <Button type="submit" variant="primary">
-                      { (editIndex !== null) ? 'Save Changes' : 'Add User' }
+                      {editIndex !== null ? "Save Changes" : "Add User"}
                     </Button>{" "}
                     <Button
                       type="button"
-                      variant={ (editIndex !== null) ? 'danger' : 'secondary' }
+                      variant={editIndex !== null ? "danger" : "secondary"}
                       onClick={resetFormHandler}
                     >
-                      { (editIndex !== null) ? 'Cancel' : 'Reset' }
+                      {editIndex !== null ? "Cancel" : "Reset"}
                     </Button>{" "}
                   </Form.Group>
                 </form>
