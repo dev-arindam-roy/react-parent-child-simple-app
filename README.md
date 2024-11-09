@@ -1,4 +1,8 @@
-#
+# React Parent - Child Prop passing & Event Emit Application
+
+## Aplication Link - 
+[https://dev-arindam-roy.github.io/react-parent-child-simple-app/](https://dev-arindam-roy.github.io/react-parent-child-simple-app/)
+
 
 ### Parent Component
 
